@@ -2,6 +2,10 @@ interface Tagable {
     getTags(): string[]
 }
 
+interface PriceWithTaxCalculatable {
+    calcPriceWithTax(): number;
+}
+
 class Product implements Tagable {
     getTags(): string[] {
         return this.tags;
@@ -23,3 +27,6 @@ let echoDot: Product = new Product("EchoDot", "Alles was Sie an Alexa lieben", 1
 console.log(echoDot.toString());
 console.log(echoDot.calcPriceWithTax());
 console.log(echoDot.getTags().filter((tag: string) => tag.startsWith("A")));
+
+let priceWithTaxCalculatable: PriceWithTaxCalculatable = echoDot;
+console.log(priceWithTaxCalculatable.calcPriceWithTax());
