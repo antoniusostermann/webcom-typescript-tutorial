@@ -108,10 +108,10 @@ loadAllData().then(data => {
 
 
 interface Configuration {
-  adminName: string;
-  adminPassword: string;
-  loggingMode: "FATAL" | "INFO";
-  maxFailLogins: number;
+  adminName?: string;
+  adminPassword?: string;
+  loggingMode?: "FATAL" | "INFO";
+  maxFailLogins?: number;
 }
 
 /** Configuration from database */
