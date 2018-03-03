@@ -105,3 +105,21 @@ loadAllData().then(data => {
     console.log("products = ", products, "\n\n", "persons = ", persons);
   }
 });
+
+
+/** Configuration from database */
+const databaseConfiguration = {
+  adminName: "toni",
+  adminPasswort: "passwd",
+};
+
+/** Default configuration */
+const defaultConfiguration = {
+  adminName: "admin",
+  adminPasswort: "admin",
+  loggingMode: "FATAL",
+  maxFailLogins: 3,
+};
+
+// Was ist der Typ von currentConfiguration? 
+const currentConfiguration = Object.assign({}, defaultConfiguration, databaseConfiguration);
