@@ -1,0 +1,9 @@
+{
+  "name": "webcom-typescript-tutorial",
+  "description": "Code for our typescript video tutorial",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^9.4.6"
+  }
+}
