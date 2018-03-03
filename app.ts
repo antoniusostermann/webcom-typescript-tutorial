@@ -63,39 +63,15 @@ function promisifyedLoadFromLocal(folderName: "products" | "persons", fileName: 
   });
 }
 
-function loadAllData() {
-  const echoDotPromise = promisifyedLoadFromLocal("products", "echo-dot").then(echoDot => {
-    console.log("loaded echo dot: ", echoDot);
-    return echoDot;
-  });
+async function loadAllData() {
+  const echoDot = await promisifyedLoadFromLocal("products", "echo-dot");
+  const googleHome = await promisifyedLoadFromLocal("products", "google-home");
+  const jan = await promisifyedLoadFromLocal("persons", "jan");
+  const thilo = await promisifyedLoadFromLocal("persons", "thilo");
 
-  const googleHomePromise = echoDotPromise.then(() => promisifyedLoadFromLocal("products", "google-home")).then(googleHome => {
-    console.log("loaded google home: ", googleHome);
-    return googleHome;
-  });
-
-  const janPromise = googleHomePromise.then(() => promisifyedLoadFromLocal("persons", "jan")).then(jan => {
-    console.log("loaded jan: ", jan);
-    return jan;
-  });
-
-  const thiloPromise = janPromise.then(() => promisifyedLoadFromLocal("persons", "thilo")).then(thilo => {
-    console.log("loaded thilo: ", thilo);
-    return thilo;
-  });
-
-  return Promise.all(
-    [
-      echoDotPromise, 
-      googleHomePromise, 
-      janPromise, 
-      thiloPromise
-    ]).catch(
-      err => console.log("error occured: ", err
-    ));
+  return [echoDot, googleHome, jan, thilo];
 }
 
 loadAllData().then(data => {
-  console.log("\n\n");
   console.log("loaded all data: ", data);
 });
