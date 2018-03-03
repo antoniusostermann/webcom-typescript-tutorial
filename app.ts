@@ -72,7 +72,7 @@ promisifyedLoadFromLocal("products", "echo-dot")
 .then(googleHome => {
   console.log("loaded google-home: ", googleHome);
 
-  return promisifyedLoadFromLocal("persons", "toni");
+  return promisifyedLoadFromLocal("persons", "jan");
 })
 .then(jan => {
   console.log("loaded jan: ", jan);
