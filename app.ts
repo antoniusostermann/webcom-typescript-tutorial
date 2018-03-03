@@ -107,19 +107,29 @@ loadAllData().then(data => {
 });
 
 
+interface Configuration {
+  adminName: string;
+  adminPassword: string;
+  loggingMode: "FATAL" | "INFO";
+  maxFailLogins: number;
+}
+
 /** Configuration from database */
-const databaseConfiguration = {
+const databaseConfiguration: Configuration = {
   adminName: "toni",
-  adminPasswort: "passwd",
+  adminPassword: "passwd",
 };
 
 /** Default configuration */
-const defaultConfiguration = {
+const defaultConfiguration: Configuration = {
   adminName: "admin",
-  adminPasswort: "admin",
+  adminPassword: "admin",
   loggingMode: "FATAL",
   maxFailLogins: 3,
 };
 
-// Was ist der Typ von currentConfiguration? 
-const currentConfiguration = Object.assign({}, defaultConfiguration, databaseConfiguration);
+const currentConfiguration = {...defaultConfiguration, ...databaseConfiguration};
+
+if (currentConfiguration.maxFailLogins > 2) {
+  console.log(`max fail logins = ${currentConfiguration.maxFailLogins}`);
+}
