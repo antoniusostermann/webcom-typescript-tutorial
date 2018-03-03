@@ -49,42 +49,39 @@ class Product implements Tagable {
   }
 }
 
-function loadFromLocal(folderName: "products" | "persons", fileName: string, callback: (err: NodeJS.ErrnoException, parsedJSON: any) => void) {
-  const filePath = `database/${folderName}/${fileName}.json`;
+function promisifyedLoadFromLocal(folderName: "products" | "persons", fileName: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const filePath = `database/${folderName}/${fileName}.json`;
 
-  fs.readFile(filePath, "utf8", (err, contents) => {
-    callback(err, err ? {} : JSON.parse(contents));
+    fs.readFile(filePath, "utf8", (err, contents) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(JSON.parse(contents));
+      }
+    });
   });
 }
 
-loadFromLocal("products", "echo-dot", (err1, json1) => {
-  if (err1) {
-    console.error("error occured loading echo-dot:", err1);
-  } else {
-    console.log("loaded echo-dot: ", json1);
+promisifyedLoadFromLocal("products", "echo-dot")
+.then(echoDot => {
+  console.log("loaded echo-dot: ", echoDot);
 
-    loadFromLocal("products", "google-home", (err2, json2) => {
-      if (err2) {
-        console.error("error occured loading google-home:", err2);
-      } else {
-        console.log("loaded google-home: ", json2);
+  return promisifyedLoadFromLocal("products", "google-home");
+})
+.then(googleHome => {
+  console.log("loaded google-home: ", googleHome);
 
-        loadFromLocal("persons", "jan", (err3, json3) => {
-          if (err3) {
-            console.error("error occured loading jan: ", err3);
-          } else {
-            console.log("loaded jan: ", json3);
-  
-            loadFromLocal("persons", "thilo", (err4, json4) => {
-              if (err4) {
-                console.error("error occured loading thilo: ", err4);
-              } else {
-                console.log("loaded thilo: ", json4);
-              }
-            });
-          }
-        });
-      }
-    });
-  }
+  return promisifyedLoadFromLocal("persons", "toni");
+})
+.then(jan => {
+  console.log("loaded jan: ", jan);
+
+  return promisifyedLoadFromLocal("persons", "thilo");
+})
+.then(thilo => {
+  console.log("loaded thilo: ", thilo);
+})
+.catch(err => {
+  console.error("error occured: ", err);
 });
