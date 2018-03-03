@@ -49,7 +49,7 @@ class Product implements Tagable {
   }
 }
 
-function loadFromLocal(folderName: string, fileName: string, callback: (err: NodeJS.ErrnoException, parsedJSON: any) => void) {
+function loadFromLocal(folderName: "products" | "persons", fileName: string, callback: (err: NodeJS.ErrnoException, parsedJSON: any) => void) {
   const filePath = `database/${folderName}/${fileName}.json`;
 
   fs.readFile(filePath, "utf8", (err, contents) => {
@@ -75,7 +75,7 @@ loadFromLocal("products", "echo-dot", (err1, json1) => {
           } else {
             console.log("loaded jan: ", json3);
   
-            loadFromLocal("person", "thilo", (err4, json4) => {
+            loadFromLocal("persons", "thilo", (err4, json4) => {
               if (err4) {
                 console.error("error occured loading thilo: ", err4);
               } else {
