@@ -64,12 +64,16 @@ function promisifyedLoadFromLocal(folderName: "products" | "persons", fileName: 
 }
 
 async function loadAllData() {
-  const echoDot = await promisifyedLoadFromLocal("products", "echo-dot");
-  const googleHome = await promisifyedLoadFromLocal("products", "google-home");
-  const jan = await promisifyedLoadFromLocal("persons", "jan");
-  const thilo = await promisifyedLoadFromLocal("persons", "thilo");
+  try {
+    const echoDot = await promisifyedLoadFromLocal("products", "echo-dot");
+    const googleHome = await promisifyedLoadFromLocal("products", "google-home");
+    const jan = await promisifyedLoadFromLocal("persons", "jan");
+    const thilo = await promisifyedLoadFromLocal("persons", "thilo");
 
-  return [echoDot, googleHome, jan, thilo];
+    return [echoDot, googleHome, jan, thilo];
+  } catch (e) {
+    console.error("error occured: ", e);
+  }
 }
 
 loadAllData().then(data => {
