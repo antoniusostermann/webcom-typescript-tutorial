@@ -56,7 +56,7 @@ class Product implements Tagable {
   }
 }
 
-function promisifyedLoadFromLocal(folderName: "products" | "persons", fileName: string): Promise<ProductData | Person> {
+function promisifyedLoadFromLocal(folderName: "products" | "persons", fileName: string): Promise<ProductData | Person>{
   return new Promise((resolve, reject) => {
     const filePath = `database/${folderName}/${fileName}.json`;
 
@@ -84,8 +84,24 @@ async function loadAllData() {
   }
 }
 
-loadAllData().then(data => {
-  console.log("loaded all data: ", data);
+function isPerson(entity: Person | ProductData): entity is Person {
+  return typeof (<Person>entity).firstName !== "undefined";
+}
 
-  // -> Was ist der Typ von data?!
+loadAllData().then(data => {
+  
+  if (data !== null) {
+    const products: Product[] = [];
+    const persons: Person[] = [];
+
+    data.forEach(entity => {
+      if (!isPerson(entity)) {
+        products.push(new Product(entity.title, entity.subTitle, entity.price, entity.tags));
+      } else {
+        persons.push(entity);
+      }
+    });
+
+    console.log("products = ", products, "\n\n", "persons = ", persons);
+  }
 });
