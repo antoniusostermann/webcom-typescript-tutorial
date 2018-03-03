@@ -102,20 +102,20 @@ loadAllData().then(data => {
       }
     });
 
-    console.log("products = ", products, "\n\n", "persons = ", persons);
+    // console.log("products = ", products, "\n\n", "persons = ", persons);
   }
 });
 
 
 interface Configuration {
-  adminName?: string;
-  adminPassword?: string;
-  loggingMode?: "FATAL" | "INFO";
-  maxFailLogins?: number;
+  adminName: string;
+  adminPassword: string;
+  loggingMode: "FATAL" | "INFO";
+  maxFailLogins: number;
 }
 
 /** Configuration from database */
-const databaseConfiguration: Configuration = {
+const databaseConfiguration: Partial<Configuration> = {
   adminName: "toni",
   adminPassword: "passwd",
 };
@@ -130,6 +130,12 @@ const defaultConfiguration: Configuration = {
 
 const currentConfiguration = {...defaultConfiguration, ...databaseConfiguration};
 
-if (currentConfiguration.maxFailLogins > 2) {
-  console.log(`max fail logins = ${currentConfiguration.maxFailLogins}`);
-}
+export const getLocalConfig = <CONFIG_KEY extends keyof Configuration>(configName: CONFIG_KEY) => {
+  const envValue = process.env[configName];
+  return typeof envValue !== "undefined" ? envValue : currentConfiguration[configName];
+};
+
+console.log(getLocalConfig("adminName"));
+
+getLocalConfig("adminPasswort");
+getLocalConfig("loggingMode") === "FATA"
