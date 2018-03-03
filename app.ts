@@ -131,6 +131,7 @@ const defaultConfiguration: Configuration = {
 const currentConfiguration = {...defaultConfiguration, ...databaseConfiguration};
 
 export const getLocalConfig = <CONFIG_KEY extends keyof Configuration>(configName: CONFIG_KEY) => {
+  // todo: we should parse env variables, since process.env is always string!
   const envValue = process.env[configName];
   return typeof envValue !== "undefined" ? envValue : currentConfiguration[configName];
 };
